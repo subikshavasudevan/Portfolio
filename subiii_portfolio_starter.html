@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Subiii — Portfolio (Prototype)</title>
+  <meta name="description" content="Design that talks back — Subiii's portfolio prototype" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    // Tailwind custom config for this page
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            neon: '#ff2d95',
+            pastel: '#7be7ff',
+            soft: '#c8a2ff',
+            bg: '#050306'
+          },
+          fontFamily: {
+            display: ['Orbitron', 'sans-serif'],
+            body: ['Inter', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <style>
+    html,body,#app{height:100%}
+    body{background:linear-gradient(180deg,#000 0%, #06040a 100%);color:#e6e6e6;font-family:Inter,system-ui,Arial}
+    .glow { text-shadow: 0 0 8px rgba(255,45,149,0.15), 0 0 24px rgba(123,231,255,0.06);}    
+    /* custom cursor trail canvas sits on top */
+    #cursorCanvas {position:fixed;left:0;top:0;pointer-events:none;z-index:60}
+    .modal-backdrop{background:rgba(0,0,0,0.6)}
+    /* secret theme */
+    .secret {
+      --accent: #7be7ff;
+      --accent-2: #c8a2ff;
+      background: linear-gradient(140deg,#071526 0%, #0b0b20 100%);
+    }
+  </style>
+</head>
+<body class="antialiased text-slate-100" id="app">
+
+<canvas id="cursorCanvas"></canvas>
+
+<!-- NAVBAR -->
+<header class="fixed w-full top-0 left-0 z-50">
+  <div class="max-w-6xl mx-auto flex items-center justify-between px-6 py-4">
+    <div class="flex items-center gap-4">
+      <div class="w-10 h-10 rounded-md bg-gradient-to-br from-neon to-pastel flex items-center justify-center text-black font-bold">S</div>
+      <nav class="hidden md:flex gap-6 items-center text-sm opacity-90">
+        <a href="#work" class="hover:underline">Work</a>
+        <a href="#about" class="hover:underline">About</a>
+        <a href="#blog" class="hover:underline">Design Drops</a>
+        <a href="#contact" class="hover:underline">Contact</a>
+      </nav>
+    </div>
+    <div class="flex items-center gap-3">
+      <a href="#" class="px-3 py-1 border border-slate-700 rounded-md text-sm hover:bg-white/5">Download CV</a>
+      <button id="secretToggle" class="text-xs px-3 py-1 rounded-md bg-white/5">Secret</button>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="min-h-screen flex items-center justify-center" id="home">
+  <div class="max-w-5xl mx-auto px-6 py-32 text-center">
+    <h1 class="text-5xl md:text-7xl font-display font-bold tracking-tight glow hero-title">Design that talks back</h1>
+    <p class="mt-6 text-xl md:text-2xl opacity-80">Sci-fi + rom-com vibes. Bold, clean, and a little mysterious. Logos. Identity. Story.</p>
+    <div class="mt-10 flex items-center gap-4 justify-center">
+      <a href="#work" class="px-6 py-3 rounded-md border border-slate-700 text-sm hover:scale-105 transition-transform duration-200">See my work</a>
+      <a href="#contact" class="px-6 py-3 rounded-md bg-neon text-black font-semibold hover:brightness-110 transition">Hire me</a>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="py-24">
+  <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+    <div class="md:col-span-1 flex justify-center md:justify-start">
+      <div class="w-48 h-48 rounded-2xl bg-gradient-to-br from-pastel to-soft flex items-center justify-center">
+        <div class="text-black font-bold">Subiii</div>
+      </div>
+    </div>
+    <div class="md:col-span-2">
+      <h2 class="text-2xl font-semibold">Who I am</h2>
+      <p class="mt-3 text-slate-300">Graphic designer obsessed with logos, clean identity systems, and making brands feel slightly futuristic yet human. I craft marks that scale from favicons to billboards.</p>
+      <div class="mt-6 flex gap-4">
+        <a class="px-4 py-2 border rounded-md" href="#contact">Let's talk</a>
+        <a class="px-4 py-2 border rounded-md" href="#blog">Read thoughts</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORK / LOGOS GRID -->
+<section id="work" class="py-20 bg-gradient-to-b from-transparent to-white/2">
+  <div class="max-w-6xl mx-auto px-6">
+    <h3 class="text-3xl font-semibold mb-8">Selected Logos</h3>
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-6" id="projectsGrid">
+      <!-- Example project cards -->
+      <div class="project-card bg-neutral-900 rounded-xl p-6 cursor-pointer" data-title="Aurora Labs" data-desc="A minimal mark for a biotech startup. Clean geometry, scalable." data-image="https://via.placeholder.com/800x800?text=Aurora">
+        <div class="h-40 flex items-center justify-center rounded-md bg-gradient-to-br from-neon to-pastel">
+          <div class="text-black font-bold">A</div>
+        </div>
+        <h4 class="mt-4 font-medium">Aurora Labs</h4>
+      </div>
+
+      <div class="project-card bg-neutral-900 rounded-xl p-6" data-title="Nexus" data-desc="Monogram for a fintech product. Strong presence in tiny sizes." data-image="https://via.placeholder.com/800x800?text=Nexus">
+        <div class="h-40 flex items-center justify-center rounded-md bg-gradient-to-br from-pastel to-soft">
+          <div class="text-black font-bold">N</div>
+        </div>
+        <h4 class="mt-4 font-medium">Nexus</h4>
+      </div>
+
+      <div class="project-card bg-neutral-900 rounded-xl p-6" data-title="Mori" data-desc="Soft organic mark for a wellness brand." data-image="https://via.placeholder.com/800x800?text=Mori">
+        <div class="h-40 flex items-center justify-center rounded-md bg-gradient-to-br from-soft to-neon">
+          <div class="text-black font-bold">M</div>
+        </div>
+        <h4 class="mt-4 font-medium">Mori</h4>
+      </div>
+
+      <!-- add more placeholders -->
+      <div class="project-card bg-neutral-900 rounded-xl p-6" data-title="Pulse" data-desc="Energy brand visual identity." data-image="https://via.placeholder.com/800x800?text=Pulse">
+        <div class="h-40 flex items-center justify-center rounded-md bg-gradient-to-br from-neon to-soft">
+          <div class="text-black font-bold">P</div>
+        </div>
+        <h4 class="mt-4 font-medium">Pulse</h4>
+      </div>
+
+      <div class="project-card bg-neutral-900 rounded-xl p-6" data-title="Kite" data-desc="Playful mark for a kids product." data-image="https://via.placeholder.com/800x800?text=Kite">
+        <div class="h-40 flex items-center justify-center rounded-md bg-gradient-to-br from-pastel to-neon">
+          <div class="text-black font-bold">K</div>
+        </div>
+        <h4 class="mt-4 font-medium">Kite</h4>
+      </div>
+
+      <div class="project-card bg-neutral-900 rounded-xl p-6" data-title="Orbit" data-desc="Spacey tech visual identity." data-image="https://via.placeholder.com/800x800?text=Orbit">
+        <div class="h-40 flex items-center justify-center rounded-md bg-gradient-to-br from-soft to-pastel">
+          <div class="text-black font-bold">O</div>
+        </div>
+        <h4 class="mt-4 font-medium">Orbit</h4>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- BLOG -->
+<section id="blog" class="py-20">
+  <div class="max-w-6xl mx-auto px-6">
+    <h3 class="text-3xl font-semibold mb-8">Design Drops</h3>
+    <div class="grid md:grid-cols-3 gap-6">
+      <article class="p-6 bg-neutral-900 rounded-lg">
+        <h4 class="font-semibold">Behind the Aurora Mark</h4>
+        <p class="mt-2 text-sm text-slate-400">How geometry and negative space gave the brand breathing room.</p>
+      </article>
+      <article class="p-6 bg-neutral-900 rounded-lg">
+        <h4 class="font-semibold">Choosing a neon palette</h4>
+        <p class="mt-2 text-sm text-slate-400">Why neon works for modern identities when used sparingly.</p>
+      </article>
+      <article class="p-6 bg-neutral-900 rounded-lg">
+        <h4 class="font-semibold">Logos that scale</h4>
+        <p class="mt-2 text-sm text-slate-400">From favicon to billboard: constraints that define a mark.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="py-20 bg-gradient-to-t from-transparent to-white/2">
+  <div class="max-w-4xl mx-auto px-6">
+    <h3 class="text-3xl font-semibold mb-6">Get in touch</h3>
+    <div class="grid md:grid-cols-2 gap-6">
+      <form action="https://formspree.io/f/xgvnalbn" method="POST" class="bg-neutral-900 rounded-lg p-6" id="contactForm">
+<label class="block text-sm">Name</label>
+<input type="text" name="name" class="w-full mt-2 mb-4 rounded-md p-2 bg-transparent border border-slate-700" placeholder="Your name" required />
+<label class="block text-sm">Email</label>
+<input type="email" name="email" class="w-full mt-2 mb-4 rounded-md p-2 bg-transparent border border-slate-700" placeholder="you@domain.com" required />
+<label class="block text-sm">Message</label>
+<textarea name="message" class="w-full mt-2 mb-4 rounded-md p-2 bg-transparent border border-slate-700" rows="4" placeholder="Tell me about your project" required></textarea>
+<button type="submit" class="px-4 py-2 rounded-md bg-neon text-black font-semibold hover:brightness-110 transition">Send</button>
+</form>
+
+      <div class="p-6 bg-neutral-900 rounded-lg">
+        <h4 class="font-semibold">Follow</h4>
+        <div class="mt-4 flex gap-3">
+          <a href="#" class="px-3 py-2 border rounded">Behance</a>
+          <a href="#" class="px-3 py-2 border rounded">Dribbble</a>
+          <a href="#" class="px-3 py-2 border rounded">Instagram</a>
+        </div>
+        <div class="mt-8">
+          <h5 class="text-sm text-slate-400">Or download my CV</h5>
+          <a href="#" class="mt-3 inline-block px-4 py-2 bg-pastel text-black rounded-md">Download CV</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="py-8">
+  <div class="max-w-6xl mx-auto px-6 text-center text-sm text-slate-500">© Subiii — Design that talks back</div>
+</footer>
+
+<!-- Project Modal (hidden) -->
+<div id="modal" class="fixed inset-0 hidden items-center justify-center z-40">
+  <div class="modal-backdrop absolute inset-0"></div>
+  <div class="relative z-50 max-w-3xl w-full p-6">
+    <div class="bg-neutral-800 rounded-lg p-6">
+      <button id="closeModal" class="mb-4 px-3 py-1 bg-white/5 rounded">Close</button>
+      <img id="modalImg" src="" alt="project" class="w-full rounded mb-4" />
+      <h4 id="modalTitle" class="text-2xl font-semibold"></h4>
+      <p id="modalDesc" class="mt-2 text-slate-300"></p>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Simple scroll reveal with IntersectionObserver + anime.js
+  const observer = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        entry.target.classList.remove('opacity-0','translate-y-6');
+        anime({targets: entry.target, opacity:[0,1], translateY:[12,0], duration:700, easing:'easeOutCubic'});
+        observer.unobserve(entry.target);
+      }
+    })
+  },{threshold:0.12});
+  document.querySelectorAll('.project-card, article, .hero-title').forEach(el=>{
+    el.classList.add('opacity-0','translate-y-6');
+    observer.observe(el);
+  });
+
+  // Project modal interactions
+  const modal = document.getElementById('modal');
+  const modalImg = document.getElementById('modalImg');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalDesc = document.getElementById('modalDesc');
+  const closeModal = document.getElementById('closeModal');
+
+  document.querySelectorAll('.project-card').forEach(card=>{
+    card.addEventListener('click', ()=>{
+      modal.classList.remove('hidden');
+      modal.style.display = 'flex';
+      modalImg.src = card.dataset.image;
+      modalTitle.textContent = card.dataset.title;
+      modalDesc.textContent = card.dataset.desc;
+      anime({targets:'#modal div[role="presentation"]', opacity:[0,1], duration:300});
+    });
+  });
+  closeModal.addEventListener('click', ()=>{ modal.classList.add('hidden'); modal.style.display='none'; });
+
+  // Cursor trail implementation
+  const canvas = document.getElementById('cursorCanvas');
+  const ctx = canvas.getContext('2d');
+  let width = canvas.width = window.innerWidth;
+  let height = canvas.height = window.innerHeight;
+  const particles = [];
+  const maxParticles = 80;
+
+  window.addEventListener('resize', ()=>{ width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; });
+
+  function createParticle(x,y){
+    if(particles.length>maxParticles) particles.shift();
+    particles.push({x,y,life:60, size:Math.random()*6+2, vx:(Math.random()-0.5)*1.2, vy:(Math.random()-0.5)*1.2, hue: Math.random()*360});
+  }
+  window.addEventListener('mousemove',(e)=>{ createParticle(e.clientX,e.clientY); });
+  function draw(){
+    ctx.clearRect(0,0,width,height);
+    for(let i=0;i<particles.length;i++){
+      const p = particles[i];
+      p.x += p.vx; p.y += p.vy; p.life -=1;
+      const alpha = p.life/60;
+      ctx.beginPath();
+      ctx.fillStyle = `rgba(123,231,255,${alpha})`;
+      ctx.arc(p.x,p.y,p.size*alpha,0,Math.PI*2);
+      ctx.fill();
+    }
+    // remove dead
+    for(let i=particles.length-1;i>=0;i--){ if(particles[i].life<=0) particles.splice(i,1); }
+    requestAnimationFrame(draw);
+  }
+  draw();
+
+  // Simple hover neon outline
+  document.querySelectorAll('.project-card').forEach(card=>{
+    card.addEventListener('mouseenter', ()=>{ card.classList.add('ring-2','ring-neon','scale-105'); });
+    card.addEventListener('mouseleave', ()=>{ card.classList.remove('ring-2','ring-neon','scale-105'); });
+  });
+
+  // Secret mode toggle (button + Konami code)
+  const secretToggle = document.getElementById('secretToggle');
+  secretToggle.addEventListener('click', ()=>{ document.body.classList.toggle('secret'); });
+
+  // Konami: up up down down left right left right b a
+  const konami = [38,38,40,40,37,39,37,39,66,65];
+  let konamiPos=0;
+  window.addEventListener('keydown',(e)=>{
+    if(e.keyCode===konami[konamiPos]) konamiPos++; else konamiPos=0;
+    if(konamiPos===konami.length){ document.body.classList.toggle('secret'); konamiPos=0; flashSecret(); }
+  });
+  function flashSecret(){ anime({targets:'body', backgroundColor:['#000','#071526'], duration:600, direction:'alternate'}); }
+
+  // Respect prefers-reduced-motion
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    // stop heavy animations
+    particles.length = 0; canvas.style.display='none';
+  }
+
+  // small entrance animation for hero title
+  anime({targets:'.hero-title', translateY:[30,0], opacity:[0,1], duration:900, easing:'easeOutCubic'});
+
+  // tiny accessibility: focus outlines for keyboard users
+  document.addEventListener('keydown', (e)=>{ if(e.key==='Tab') document.body.classList.add('show-focus'); });
+</script>
+
+</body>
+</html>
